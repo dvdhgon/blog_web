@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['id_usuario'] = $usuario['id_usr'];
                 $_SESSION['nombre']     = $usuario['nom_usr'];
                 // Mapeamos tu tip_usu a roles web (2 = admin, 1 = visor)
-                $_SESSION['rol']        = ($usuario['tip_usu'] == 2) ? 'administrador' : 'visor';
+                $_SESSION['rol'] = ($usuario['tip_usu'] === 'admin') ? 'administrador' : 'visor';
                 
                 header("Location: index.php");
                 exit();

@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mensaje_error = "Todos los campos son obligatorios.";
     } elseif ($password !== $password_conf) {
         $mensaje_error = "Las contraseñas no coinciden.";
-    } elseif (strlen($password) < 6) {
-        $mensaje_error = "La contraseña debe tener al menos 6 caracteres.";
+    } elseif (strlen($password) < 8) {
+        $mensaje_error = "La contraseña debe tener al menos 8 caracteres.";
     } else {
         // Verificar si el correo ya existe en tu DB móvil unificada
         $stmt_check = $conn->prepare("SELECT id_usr FROM usuario WHERE mail = ?");
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Encriptar la contraseña (RF-WEB-01 / Seguridad)
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            $tip_usu = 1; // 1 = Cliente normal en tu app (equivale a visor en web)
+            $tip_usu = 'user'; // 1 = Cliente normal en tu app (equivale a visor en web)
             
             // Insertar en tu tabla usuario
             $stmt_ins = $conn->prepare("INSERT INTO usuario (nom_usr, mail, pass, tip_usu) VALUES (?, ?, ?, ?)");

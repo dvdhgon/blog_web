@@ -1,0 +1,9 @@
+# Ignorar archivo de configuración con contraseñas
+config.php
+
+# Ignorar las imágenes subidas por los usuarios al servidor
+uploads/duncan_*
+
+# Archivos ocultos del sistema operativo
+.DS_Store
+Thumbs.db

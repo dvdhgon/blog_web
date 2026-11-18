@@ -15,7 +15,7 @@ $params = [];
 $tipos = "";
 
 $termino_busqueda = isset($_GET['q']) ? trim($_GET['q']) : '';
-$tag_busqueda = isset($_GET['tag']) ? trim($_GET['tag']) : '';
+$tag_busqueda     = isset($_GET['tag']) ? trim($_GET['tag']) : '';
 
 if (!empty($termino_busqueda)) {
     $where_sql .= " AND (p.titulo LIKE ? OR p.contenido LIKE ? OR p.etiquetas LIKE ?)";
@@ -29,16 +29,18 @@ if (!empty($termino_busqueda)) {
     $tipos .= "s";
 }
 
-// Apuntar a la nueva tabla web_publicaciones
+// 1. Conteo total
 $sql_count = "SELECT COUNT(*) AS total FROM web_publicaciones p " . $where_sql;
 $stmt_count = $conn->prepare($sql_count);
-if (!empty($params)) $stmt_count->bind_param($tipos, ...$params);
+if (!empty($params)) {
+    $stmt_count->bind_param($tipos, ...$params);
+}
 $stmt_count->execute();
 $total_registros = $stmt_count->get_result()->fetch_assoc()['total'];
 $total_paginas = ceil($total_registros / $por_pagina);
 $stmt_count->close();
 
-// Cambiamos 'usuarios' por 'usuario' y ajustamos nom_usr y id_usr
+// 2. Consulta a las tablas web_publicaciones y usuario
 $sql_list = "SELECT p.id_publicacion, p.titulo, p.contenido, p.imagen, p.etiquetas, p.fecha_publicacion, u.nom_usr AS autor 
              FROM web_publicaciones p 
              JOIN usuario u ON p.id_autor = u.id_usr 
