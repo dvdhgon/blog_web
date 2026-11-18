@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../conexion.php';
+requerir_rol([ROL_VISOR, ROL_ADMIN], '../login.php', '../index.php');
 
 // PERMITIR ACCESO A AMBOS ROLES
 requerir_rol([ROL_VISOR, ROL_ADMIN], '../login.php', '../index.php');
