@@ -32,19 +32,35 @@ $msg = $_GET['msg'] ?? '';
 </head>
 <body class="d-flex flex-column min-vh-100 bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-vino border-dorado-bottom shadow-sm sticky-top">
-    <div class="container">
+<!-- 3. BARRA DE NAVEGACIÓN DEL PANEL DE CONTROL -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-vino border-dorado-bottom shadow-sm">
+    <div class="container-fluid px-4">
         <a class="navbar-brand d-flex align-items-center text-dorado fw-bold fs-4" href="panel.php">
-            <i class="bi bi-shield-lock me-2 fs-3"></i><span>Panel Control</span>
+            <?php if (file_exists('../uploads/logo duncan.jpeg')): ?>
+                <img src="../uploads/logo duncan.jpeg" alt="Logo" style="height: 38px;" class="me-2 rounded">
+            <?php else: ?>
+                <i class="bi bi-shield-dog me-2 fs-3"></i>
+            <?php endif; ?>
+            Panel de Control
         </a>
+        
         <div class="d-flex align-items-center gap-2">
+            <!-- Usuario autenticado en la sesión -->
             <span class="text-light me-2 small d-none d-md-inline">
                 <i class="bi bi-person-circle text-dorado me-1 fs-6"></i>
-                <strong><?= e($_SESSION['nombre']) ?></strong>
-                <span class="badge badge-rol ms-1"><?= ucfirst(usuario_rol()) ?></span>
+                <strong><?= htmlspecialchars($_SESSION['nombre']) ?></strong>
+                <span class="badge bg-secondary ms-1"><?= ucfirst($_SESSION['rol']) ?></span>
             </span>
-            <a href="../index.php" class="btn btn-outline-dorado btn-sm me-1"><i class="bi bi-globe"></i> Ver Blog</a>
-            <a href="../logout.php" class="btn btn-sm btn-light text-vino fw-semibold"><i class="bi bi-box-arrow-right"></i> Salir</a>
+
+            <!-- Botón para ver el blog público -->
+            <a href="../index.php" class="btn btn-outline-dorado btn-sm me-1">
+                <i class="bi bi-globe"></i> Ver Blog
+            </a>
+
+            <!-- Cerrar sesión -->
+            <a href="../logout.php" class="btn btn-sm btn-light text-vino fw-semibold">
+                <i class="bi bi-box-arrow-right"></i> Salir
+            </a>
         </div>
     </div>
 </nav>

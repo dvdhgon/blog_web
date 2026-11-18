@@ -1,7 +1,7 @@
 <?php
 $host     = "localhost";
 $user     = "root";
-$password = "123"; 
+$password = ""; 
 $dbname   = "sistema_duncan"; 
 $port     = 3309; 
 
