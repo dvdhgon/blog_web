@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../conexion.php';
-require_once '../includes/auth.php'; // Agregamos la verificación centralizada si la usas
+require_once '../includes/auth.php'; //Verificación centralizada
 
 // Verificar que sea admin
 if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'administrador' && $_SESSION['rol'] !== ROL_ADMIN) {
@@ -9,7 +9,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'administrador' && $
     exit();
 }
 
-// Ahora recibimos por POST, no por GET
+// Recibe por POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && is_numeric($_POST['id'])) {
     $id_publicacion = intval($_POST['id']);
     
