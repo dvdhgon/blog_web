@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Configuración de la base de datos (Directa y sin contraseña)
+// Configuración de la base de datos
 $host     = "localhost";
 $user     = "root";
 $password = ""; 
@@ -75,6 +75,7 @@ $rol_usuario      = $esta_autenticado ? $_SESSION['rol'] : '';
     <title>Inicio - Blog Web</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
     <style>
         .border-dorado { border-color: #D4AF37 !important; }
         .text-dorado { color: #D4AF37 !important; }
@@ -82,6 +83,14 @@ $rol_usuario      = $esta_autenticado ? $_SESSION['rol'] : '';
         .bg-vino { background-color: #6B1D2F !important; }
         .btn-vino { background-color: #6B1D2F; color: white; border: none; }
         .btn-vino:hover { background-color: #4a1420; color: white; }
+        .btn-outline-dorado {
+        color: #D4AF37 !important;
+        border: 1px solid #D4AF37 !important;
+        }
+        .btn-outline-dorado:hover {
+        background-color: #D4AF37 !important;
+        color: #6B1D2F !important;
+}
     </style>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
@@ -94,16 +103,28 @@ $rol_usuario      = $esta_autenticado ? $_SESSION['rol'] : '';
             <img src="uploads/logo duncan.jpeg" alt="Logotipo Duncan Mascotas" style="height: 40px; width: auto;" class="me-2 rounded">
             <span>Duncan Mascotas</span>
         </a>
-        <div class="d-flex text-white align-items-center">
+        
+        <div class="d-flex align-items-center gap-2">
             <?php if ($esta_autenticado): ?>
-                <span class="me-3 small d-none d-md-inline">
+                <span class="text-light me-2 small d-none d-md-inline">
                     <i class="bi bi-person-circle text-dorado me-1 fs-6"></i>
                     Hola, <strong><?= htmlspecialchars($nombre_usuario) ?></strong>
                 </span>
-                
-                <a href="logout.php" class="btn btn-sm btn-light text-vino fw-semibold"><i class="bi bi-box-arrow-right"></i> Salir</a>
+
+                <!-- Botón de Panel Admin: Solo visible para administradores -->
+                <?php if ($rol_usuario === 'admin' || $rol_usuario === 'administrador'): ?>
+                    <a href="admin/panel.php" class="btn btn-outline-dorado btn-sm me-1">
+                        <i class="bi bi-speedometer2"></i> Panel Admin
+                    </a>
+                <?php endif; ?>
+
+                <!-- Botón de Salir -->
+                <a href="logout.php" class="btn btn-sm btn-light text-vino fw-semibold">
+                    <i class="bi bi-box-arrow-right"></i> Salir
+                </a>
             <?php else: ?>
-                <a href="login.php" class="btn btn-outline-dorado btn-sm me-2">Iniciar Sesión</a>
+                <!-- Botón para visitantes -->
+                <a href="login.php" class="btn btn-outline-dorado btn-sm">Iniciar Sesión</a>
             <?php endif; ?>
         </div>
     </div>
