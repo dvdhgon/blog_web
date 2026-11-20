@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $mensaje_error = "Por favor, completa todos los campos.";
     } else {
-        // Usa mail, pass y nom_usr de la BD móvil unificada (sistema_duncan)
+        // CORRECCIÓN: Volvemos a usar 'pass' porque así se llama la columna en tu BD
         $stmt = $conn->prepare("SELECT id_usr, nom_usr, pass, tip_usu FROM usuario WHERE mail = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -21,12 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($resultado->num_rows === 1) {
             $usuario = $resultado->fetch_assoc();
             
-            // Verificamos si la contraseña coincide (soporta texto plano o hash)
+            // Verificamos si la contraseña coincide (soporta el hash o texto plano)
             if ($password === $usuario['pass'] || password_verify($password, $usuario['pass'])) {
                 $_SESSION['id_usuario'] = $usuario['id_usr'];
                 $_SESSION['nombre']     = $usuario['nom_usr'];
-                // Mapeamos tu tip_usu a roles web (2 = admin, 1 = visor)
-                $_SESSION['rol'] = ($usuario['tip_usu'] === 'admin') ? 'administrador' : 'visor';
+                
+                // Mapeamos tip_usu a roles web (2 = administrador)
+                $_SESSION['rol'] = ($usuario['tip_usu'] == 2) ? 'administrador' : 'visor';
                 
                 header("Location: index.php");
                 exit();
@@ -57,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="col-md-6 col-lg-5">
             <div class="card shadow-lg border-0 rounded-4 card-blog overflow-hidden">
                 
-                <!-- Encabezado de Tarjeta Vino/Dorado -->
                 <div class="bg-vino p-4 text-center border-bottom border-dorado-bottom">
                     <a href="index.php" class="text-decoration-none">
                         <?php if (file_exists('uploads/logo duncan.jpeg')): ?>

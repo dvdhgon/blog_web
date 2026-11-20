@@ -34,11 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Encriptar la contraseña (RF-WEB-01 / Seguridad)
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            $tip_usu = 'user'; // 1 = Cliente normal en tu app (equivale a visor en web)
+            $tip_usu = 'user'; // Rol en texto
             
             // Insertar en tu tabla usuario
             $stmt_ins = $conn->prepare("INSERT INTO usuario (nom_usr, mail, pass, tip_usu) VALUES (?, ?, ?, ?)");
-            $stmt_ins->bind_param("sssi", $nombre, $email, $password_hash, $tip_usu);
+            
+            // CORRECCIÓN AQUÍ: "ssss" en lugar de "sssi" porque tip_usu ahora es texto ('user')
+            $stmt_ins->bind_param("ssss", $nombre, $email, $password_hash, $tip_usu);
             
             if ($stmt_ins->execute()) {
                 $mensaje_exito = "¡Cuenta creada con éxito! Ya puedes iniciar sesión.";
@@ -117,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="row g-3 mb-4">
                                 <div class="col-md-6">
                                     <label for="password" class="form-label fw-semibold text-vino small">Contraseña</label>
-                                    <input type="password" name="password" id="password" class="form-control border-dorado shadow-sm" placeholder="Mínimo 6 caracteres" required>
+                                    <input type="password" name="password" id="password" class="form-control border-dorado shadow-sm" placeholder="Mínimo 8 caracteres" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="password_conf" class="form-label fw-semibold text-vino small">Confirmar Contraseña</label>
