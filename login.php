@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $mensaje_error = "Por favor, completa todos los campos.";
     } else {
-        // CORRECCIÓN: Volvemos a usar 'pass' porque así se llama la columna en tu BD
+        // Usa `pass` tal y como está definido en la base de datos `bd_aplicacion_movil`
         $stmt = $conn->prepare("SELECT id_usr, nom_usr, pass, tip_usu FROM usuario WHERE mail = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -52,12 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="bg-light d-flex align-items-center min-vh-100 py-5">
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
             <div class="card shadow-lg border-0 rounded-4 card-blog overflow-hidden">
-                
                 <div class="bg-vino p-4 text-center border-bottom border-dorado-bottom">
                     <a href="index.php" class="text-decoration-none">
                         <?php if (file_exists('uploads/logo duncan.jpeg')): ?>
@@ -68,16 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h2 class="h4 text-dorado fw-bold mb-0">Duncan Mascotas</h2>
                     </a>
                 </div>
-
                 <div class="card-body p-4 p-md-5">
                     <h3 class="h5 fw-bold text-vino text-center mb-4">Iniciar Sesión</h3>
-
                     <?php if (!empty($mensaje_error)): ?>
                         <div class="alert alert-danger py-2 px-3 small border-danger">
                             <i class="bi bi-exclamation-circle-fill me-1"></i> <?= htmlspecialchars($mensaje_error) ?>
                         </div>
                     <?php endif; ?>
-
                     <form action="login.php" method="POST">
                         <div class="mb-4">
                             <label for="email" class="form-label fw-semibold text-vino small">Correo Electrónico</label>
@@ -86,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="email" name="email" id="email" class="form-control border-dorado shadow-sm" placeholder="tu@correo.com" required>
                             </div>
                         </div>
-
                         <div class="mb-4">
                             <label for="password" class="form-label fw-semibold text-vino small">Contraseña</label>
                             <div class="input-group">
@@ -94,11 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="password" name="password" id="password" class="form-control border-dorado shadow-sm" placeholder="********" required>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-vino w-100 py-2 fw-bold mb-3 shadow-sm">
                             <i class="bi bi-box-arrow-in-right me-1"></i> Ingresar
                         </button>
-
                         <div class="text-center text-muted small">
                             ¿No tienes una cuenta? <a href="registro.php" class="text-dorado-oscuro fw-bold text-decoration-none">Regístrate aquí</a>
                         </div>
@@ -111,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

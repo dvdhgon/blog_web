@@ -1,14 +1,16 @@
 <?php
+// 1. CONTROL DE SESIÓN Y SEGURIDAD POR ROLES
 session_start();
-require_once '../conexion.php'; 
+require_once '../conexion.php'; // Conexión a la base de datos MySQL
 
-// 1. Validaciones de Sesión y Rol (Solo para Administradores)
+// Validar que exista una sesión iniciada
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: ../login.php");
     exit();
 }
 
-if ($_SESSION['rol'] !== 'administrador') {
+// Control de acceso corregido: Permitimos acceso si el rol es el número 2 o la palabra 'administrador'
+if ($_SESSION['rol'] !== 'administrador' && $_SESSION['rol'] != 2 && $_SESSION['rol'] !== 'autor') {
     header("Location: ../index.php");
     exit();
 }
@@ -16,7 +18,6 @@ if ($_SESSION['rol'] !== 'administrador') {
 $id_usuario_sesion = $_SESSION['id_usuario'];
 $nombre_usuario    = htmlspecialchars($_SESSION['nombre']);
 $rol_usuario       = $_SESSION['rol'];
-
 // 2. Consultas a la base de datos (Usando web_publicaciones)
 $sql_act = "SELECT COUNT(*) AS total FROM web_publicaciones WHERE estado = 'publicada'";
 $res_act = $conn->query($sql_act);
